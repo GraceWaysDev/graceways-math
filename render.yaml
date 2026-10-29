@@ -1,0 +1,29 @@
+# Preparation only. Creating a Blueprint in Render is a deployment action.
+services:
+  - type: web
+    name: graceways-math-jury
+    runtime: node
+    region: frankfurt
+    plan: 0.5c-512mb
+    numInstances: 1
+    autoDeployTrigger: 'off'
+    buildCommand: node --check server.mjs
+    startCommand: node server.mjs
+    healthCheckPath: /healthz
+    disk:
+      name: jury-sessions
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /var/data/graceways-math
+      - key: PUBLIC_ORIGIN
+        sync: false
+      - key: JURY_ACCESS_CODE
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true

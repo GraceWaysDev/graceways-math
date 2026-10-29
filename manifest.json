@@ -1,0 +1,164 @@
+{
+  "version": 3,
+  "scope": "GraceWays Math standalone publication candidate with opt-in Nebius adapter",
+  "licenseActive": true,
+  "liveProviderIncluded": true,
+  "defaultMode": "LOCAL_SIMULATION",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 40,
+      "sha256": "e69bea9334c671ff100b5cd81322e8c6fcf78dc83563e5d3d0118c1381539f0a"
+    },
+    {
+      "path": "FILE-LIST.md",
+      "bytes": 2654,
+      "sha256": "047abbb39232b724168f437facfeecbbf6b1c028e455a0498520d47d4f1aec5d"
+    },
+    {
+      "path": "INSTALL.en.md",
+      "bytes": 7075,
+      "sha256": "cfad9796ee1af2e322b2241322f3b717f95672a3d82e4751e18f1e54697fa1e0"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1068,
+      "sha256": "020c3935a2218bf19deadb311f4b5d828fec75ff469be07f460aa4a9e91ba929"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 2902,
+      "sha256": "3f3ab3b6d2a9e65eee52123f32d124aa2cde3ebc6c07a02e6de572a151106260"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 5313,
+      "sha256": "5c402693984a492a0f990067255fa54f1ab966a933e414d5ca5c2c8f1394241f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6102,
+      "sha256": "76367e1e806f9c4899fda033ef14028cbd4c042ae482acd9f537195d62be6031"
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 3344,
+      "sha256": "7433fbcc5d1f8e6f090ea50811a2faad08f3aae5291185438c74a3f0c03e309c"
+    },
+    {
+      "path": "data/showcase.json",
+      "bytes": 6007,
+      "sha256": "1a573d2d6d492efbb697d8fdb498bfffa6d28969b69982d792b8769186436f2e"
+    },
+    {
+      "path": "package.json",
+      "bytes": 281,
+      "sha256": "eaaa15a0dbf53ebe8bbf3429124cf1feea5eefdb890c6da07bb90673dae4da01"
+    },
+    {
+      "path": "public/replay-app.mjs",
+      "bytes": 17931,
+      "sha256": "e94edf23ec9416e8822dcc9228caf74f6c8fa7256bf73b3d6222c72650e37b95"
+    },
+    {
+      "path": "public/replay.html",
+      "bytes": 13516,
+      "sha256": "d36b8475d7b426574d18ac82378e4b3d5425f651855a3c06a06ca52324d64300"
+    },
+    {
+      "path": "public/style.css",
+      "bytes": 13226,
+      "sha256": "4c7ec6b756528bf1cac859e763fa8a623767d3e4b2417f28da721b79856c7adf"
+    },
+    {
+      "path": "render.yaml",
+      "bytes": 744,
+      "sha256": "79706028462e613adf992e7df009f076e3cc5176e24877c54303cd7e262df38f"
+    },
+    {
+      "path": "run-store.mjs",
+      "bytes": 2134,
+      "sha256": "e61ca6bf29adbf63b8c27fed1ad7cbfa1c53ee25fe7364eafbafbe32d374e4ad"
+    },
+    {
+      "path": "scripts/no-network.mjs",
+      "bytes": 885,
+      "sha256": "9ac38326d212ebfdc270ac01a614e38caa7ac0d03ba9cb34f0e283b52c75bbe7"
+    },
+    {
+      "path": "scripts/verify-export.mjs",
+      "bytes": 1624,
+      "sha256": "14c280583c49804c6b61abcb3aec7f5bf901642f6e18af164fb74f68a6c514b0"
+    },
+    {
+      "path": "server.mjs",
+      "bytes": 8033,
+      "sha256": "9578c9cf8b200b6ea65e9cde3318700dcb154f8509d14e2a5ecc4db72052c748"
+    },
+    {
+      "path": "src/admission.mjs",
+      "bytes": 659,
+      "sha256": "73dc0ee7ce2f033b983c5474b8c9c9a6da2d2fbf4e6cf6567b668f96bc649977"
+    },
+    {
+      "path": "src/binding.mjs",
+      "bytes": 812,
+      "sha256": "0d739e08d81cd418d00f6c16fa8b24b016513f5730d5d85cfaf0d1173c0cb3a0"
+    },
+    {
+      "path": "src/config.mjs",
+      "bytes": 1094,
+      "sha256": "1b8c87c0c3e00aaf1028af53a201127eb99229476dc6f4548295cd49aa23206c"
+    },
+    {
+      "path": "src/errors.mjs",
+      "bytes": 973,
+      "sha256": "99a52c99a24c517955ebc5c3c99a06625438588be6f918e7060de8253d01bdbf"
+    },
+    {
+      "path": "src/learning-ai-provider.mjs",
+      "bytes": 12848,
+      "sha256": "97c473ee9170cb13ce0e2b457066f2fb6081bd8d1b859a9a30f1aace274c4480"
+    },
+    {
+      "path": "src/math.mjs",
+      "bytes": 6812,
+      "sha256": "0e8102689c25bd5ec4ff95d265eebda84436a8a46506407b96e93e1ad41dca24"
+    },
+    {
+      "path": "src/nebius-provider.mjs",
+      "bytes": 5919,
+      "sha256": "3aa6e74abf0664c6f6bb67282f30b8aa5e6bb263c7fb7e4860f201f80f47efb3"
+    },
+    {
+      "path": "src/persistent-live-budget.mjs",
+      "bytes": 1198,
+      "sha256": "737ab43c243944f523d7c3469e1d34a41cf066421bac19c94d53b050a5754edf"
+    },
+    {
+      "path": "src/workflow.mjs",
+      "bytes": 9546,
+      "sha256": "0c858b84102c160743ea216cfdf0ff11972c823f41b17307f50a778f817e5a21"
+    },
+    {
+      "path": "tests/hosting.test.mjs",
+      "bytes": 6158,
+      "sha256": "a7a491639c0998929b763c9721c5beef3ebc7bffb9b09e3eb4b5316b658ea54c"
+    },
+    {
+      "path": "tests/math.test.mjs",
+      "bytes": 3349,
+      "sha256": "dedde1cefd2176fe502438864be48e196eb0420ef06fa80b0ed071f67bbf39bc"
+    },
+    {
+      "path": "tests/nebius-provider.test.mjs",
+      "bytes": 14674,
+      "sha256": "582bb2a0b1565e72e18cd2e6577034e80cf8002ec90a6e29221af06d31968fa9"
+    },
+    {
+      "path": "tests/workflow.test.mjs",
+      "bytes": 3636,
+      "sha256": "916c42621bb6a5a0928af69ecaf37d7309a201403f81ab7302e0cf34842fe91d"
+    }
+  ]
+}

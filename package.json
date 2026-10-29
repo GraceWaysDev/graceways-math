@@ -1,0 +1,13 @@
+{
+  "name": "graceways-math-publication-candidate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --import ./scripts/no-network.mjs --test tests/*.test.mjs"
+  }
+}

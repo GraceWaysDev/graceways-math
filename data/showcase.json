@@ -1,0 +1,128 @@
+{
+  "run": {
+    "id": "db810771-e61a-4263-9884-5298dd6ea6a9",
+    "bindingHash": "c134c630cffc90c80ae2851cf9b64087d1322def4a34346ca72b4678bb017c95",
+    "status": "RELEASED",
+    "task": {
+      "id": "quadratic",
+      "title": "Zwei reelle Wurzeln",
+      "equation": "x^2 = 4",
+      "steps": [
+        "(x - 2)(x + 2) = 0"
+      ],
+      "solution": "{-2; 2}",
+      "follow": "quadratic-next"
+    },
+    "attempt": {
+      "steps": [
+        "(x - 2)(x + 2) = 0"
+      ],
+      "solution": "{-2; 2}"
+    },
+    "report": {
+      "checker": "exact-polynomial-v1",
+      "verification_source": "DETERMINISTIC_CHECKER",
+      "verdict": "CORRECT",
+      "reason": "COMPLETE_REAL_SOLUTION_SET",
+      "expected": {
+        "kind": "FINITE",
+        "values": [
+          "-2",
+          "2"
+        ]
+      },
+      "submitted": {
+        "kind": "FINITE",
+        "values": [
+          "-2",
+          "2"
+        ]
+      },
+      "steps": [
+        {
+          "index": 1,
+          "status": "EQUIVALENT",
+          "solution_set": {
+            "kind": "FINITE",
+            "values": [
+              "-2",
+              "2"
+            ]
+          }
+        }
+      ],
+      "complete": true
+    },
+    "pre": "PASS",
+    "post": "REVIEW",
+    "provider": "NEBIUS_LIVE",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "responseId": "chatcmpl-883384d492ed5cce",
+    "createdAt": "2026-10-29T18:47:21.446Z",
+    "receivedAt": "2026-10-29T18:47:24.534Z",
+    "decision": {
+      "value": "APPROVE",
+      "comment": "",
+      "at": "2026-10-29T20:12:30.002Z",
+      "scope": "LOCAL_DEMO_HUMAN_ACTION"
+    },
+    "controlledFeedback": "Die vollständige reelle Lösungsmenge stimmt überein. Alle eingegebenen Gleichungszeilen sind im unterstützten Umfang äquivalent. Nicht eingegebene Begründungen wurden nicht geprüft.",
+    "proposal": {
+      "summary": "Die Lösung korrekt identifiziert beide reellen Nullstellen der Gleichung x² = 4 mittels Faktorisierung und gibt die Lösungsmenge {-2; 2} an. Alle Schritte sind mathematisch äquivalent und vollständig.",
+      "feedback": "Deine Lösung ist vollkommen richtig! Du hast die Gleichung x² = 4 durch Umformen zu x² - 4 = 0 erkannt und anschließend als Differenz zweier Quadrate faktorisiert: (x - 2)(x + 2) = 0. Aus jedem Faktor ergibt sich eine Lösung: x - 2 = 0 → x = 2 und x + 2 = 0 → x = -2. Damit hast du die vollständige reelle Lösungsmenge {-2; 2} gefunden. Sehr gut gemacht!",
+      "checks": [
+        {
+          "quote": "(x - 2)(x + 2) = 0",
+          "comment": "Dieser Schritt stellt die korrekte Faktorisierung von x² - 4 dar und ist äquivalent zur Ausgangsgleichung x² = 4."
+        },
+        {
+          "quote": "{-2; 2}",
+          "comment": "Diese Lösung enthält beide reellen Nullstellen und entspricht exakt der erwarteten Lösungsmenge."
+        }
+      ],
+      "limitations": [
+        "Die Lehrkraft muss die fachliche Richtigkeit unabhängig prüfen, auch wenn der automatisierte Checker CORRECT meldet.",
+        "Diese Bewertung beschränkt sich auf die übermittelte schriftliche Antwort und berücksichtigt nicht mündliche Erklärungen oder alternative Lösungswege.",
+        "Es wird keine Aussage über das Verständnis zugrundeliegender Konzepte getroffen – nur die formale Korrektheit der angegebenen Schritte und Lösung wird überprüft."
+      ]
+    },
+    "proposalMathVerified": false,
+    "error": null,
+    "release": {
+      "controlledFeedback": "Die vollständige reelle Lösungsmenge stimmt überein. Alle eingegebenen Gleichungszeilen sind im unterstützten Umfang äquivalent. Nicht eingegebene Begründungen wurden nicht geprüft.",
+      "modelFeedback": "Deine Lösung ist vollkommen richtig! Du hast die Gleichung x² = 4 durch Umformen zu x² - 4 = 0 erkannt und anschließend als Differenz zweier Quadrate faktorisiert: (x - 2)(x + 2) = 0. Aus jedem Faktor ergibt sich eine Lösung: x - 2 = 0 → x = 2 und x + 2 = 0 → x = -2. Damit hast du die vollständige reelle Lösungsmenge {-2; 2} gefunden. Sehr gut gemacht!",
+      "modelFeedbackMathVerified": false,
+      "humanComment": "",
+      "commentMathVerified": false,
+      "approvedAt": "2026-10-29T20:12:30.002Z",
+      "scope": "LOCAL_DEMO_HUMAN_ACTION"
+    },
+    "nextTask": {
+      "id": "quadratic-next",
+      "title": "Nächster Schritt: quadratisch",
+      "equation": "x^2 - 5x + 6 = 0",
+      "reason": "Vertiefung nach Freigabe"
+    },
+    "juryReadOnly": true
+  },
+  "translation": {
+    "summary": "The solution correctly identifies both real roots of x² = 4 by factorisation and gives the solution set {-2; 2}. All steps are mathematically equivalent and complete.",
+    "feedback": "Your solution is completely correct! You recognised the equation x² = 4 by rearranging it to x² - 4 = 0, and then factorised it as a difference of two squares: (x - 2)(x + 2) = 0. Each factor gives a solution: x - 2 = 0 → x = 2 and x + 2 = 0 → x = -2. You have therefore found the complete real solution set {-2; 2}. Very well done!",
+    "checks": [
+      {
+        "quote": "(x - 2)(x + 2) = 0",
+        "comment": "This step correctly factorises x² - 4 and is equivalent to the original equation x² = 4."
+      },
+      {
+        "quote": "{-2; 2}",
+        "comment": "This solution contains both real roots and exactly matches the expected solution set."
+      }
+    ],
+    "limitations": [
+      "The teacher must independently check subject accuracy, even when the automated checker reports CORRECT.",
+      "This assessment is limited to the submitted written answer and does not consider oral explanations or alternative solution methods.",
+      "No statement is made about understanding of the underlying concepts — only the formal correctness of the given steps and solution is checked."
+    ]
+  },
+  "translationNotice": "Assistant-prepared English translation for jury presentation; not a Nebius response, not separately human-approved. German original remains authoritative."
+}

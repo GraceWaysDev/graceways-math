@@ -1,0 +1,123 @@
+{
+  "copied": [
+    {
+      "file": "src/math.mjs",
+      "source": "math-feedback-demo-v0.1/src/math.mjs",
+      "sourceSha256": "0e8102689c25bd5ec4ff95d265eebda84436a8a46506407b96e93e1ad41dca24"
+    },
+    {
+      "file": "src/binding.mjs",
+      "source": "math-feedback-demo-v0.1/src/binding.mjs",
+      "sourceSha256": "0d739e08d81cd418d00f6c16fa8b24b016513f5730d5d85cfaf0d1173c0cb3a0"
+    },
+    {
+      "file": "src/admission.mjs",
+      "source": "math-feedback-demo-v0.1/src/admission.mjs",
+      "sourceSha256": "73dc0ee7ce2f033b983c5474b8c9c9a6da2d2fbf4e6cf6567b668f96bc649977"
+    },
+    {
+      "file": "src/errors.mjs",
+      "source": "math-feedback-demo-v0.1/src/errors.mjs",
+      "sourceSha256": "99a52c99a24c517955ebc5c3c99a06625438588be6f918e7060de8253d01bdbf"
+    },
+    {
+      "file": "src/config.mjs",
+      "source": "math-feedback-demo-v0.1/src/config.mjs",
+      "sourceSha256": "1b8c87c0c3e00aaf1028af53a201127eb99229476dc6f4548295cd49aa23206c"
+    },
+    {
+      "file": "src/learning-ai-provider.mjs",
+      "source": "math-feedback-demo-v0.1/src/learning-ai-provider.mjs",
+      "sourceSha256": "97c473ee9170cb13ce0e2b457066f2fb6081bd8d1b859a9a30f1aace274c4480"
+    },
+    {
+      "file": "run-store.mjs",
+      "source": "math-feedback-demo-v0.1/run-store.mjs",
+      "sourceSha256": "e61ca6bf29adbf63b8c27fed1ad7cbfa1c53ee25fe7364eafbafbe32d374e4ad"
+    },
+    {
+      "file": "public/replay.html",
+      "source": "math-feedback-demo-v0.1/public/replay.html",
+      "sourceSha256": "1a6ef26a7093d180d5c3dede15a037ad1036cdaf4553ade1f3ad6c497dfaa4e1"
+    },
+    {
+      "file": "public/replay-app.mjs",
+      "source": "math-feedback-demo-v0.1/public/replay-app.mjs",
+      "sourceSha256": "171cf83b653f2646385550214cedaa44b08a0a9183c02f14f0cb1f0416e0735e"
+    },
+    {
+      "file": "public/style.css",
+      "source": "math-feedback-demo-v0.1/public/style.css",
+      "sourceSha256": "d878104f82abb44a933f5528e07c6c6d5596e69eef7647e81577b1ca1d323817"
+    },
+    {
+      "file": "tests/math.test.mjs",
+      "source": "math-feedback-demo-v0.1/tests/math.test.mjs",
+      "sourceSha256": "dedde1cefd2176fe502438864be48e196eb0420ef06fa80b0ed071f67bbf39bc"
+    },
+    {
+      "file": "tests/workflow.test.mjs",
+      "source": "math-feedback-demo-v0.1/tests/workflow.test.mjs",
+      "sourceSha256": "916c42621bb6a5a0928af69ecaf37d7309a201403f81ab7302e0cf34842fe91d"
+    },
+    {
+      "file": "scripts/no-network.mjs",
+      "source": "math-feedback-demo-v0.1/scripts/no-network.mjs",
+      "sourceSha256": "9ac38326d212ebfdc270ac01a614e38caa7ac0d03ba9cb34f0e283b52c75bbe7"
+    },
+    {
+      "file": "app.mjs",
+      "source": "math-feedback-demo-v0.1/server.mjs",
+      "sourceSha256": "3d60f712c046a4710a5d7c431abe48182a9dbef766737a1b8a728f00a110ea3d"
+    },
+    {
+      "file": "src/nebius-provider.mjs",
+      "source": "math-feedback-demo-v0.1/src/nebius-provider.mjs",
+      "sourceSha256": "3aa6e74abf0664c6f6bb67282f30b8aa5e6bb263c7fb7e4860f201f80f47efb3"
+    },
+    {
+      "file": "src/workflow.mjs",
+      "source": "math-feedback-demo-v0.1/src/workflow.mjs",
+      "sourceSha256": "8d52c644022aab077c30bec79af74a1950982c5ea23d5e1f4f6af4a205d5c7c2"
+    },
+    {
+      "file": "tests/nebius-provider.test.mjs",
+      "source": "math-feedback-demo-v0.1/tests/nebius-provider.test.mjs",
+      "sourceSha256": "27ea7374ee45ec8f0e442d39fd9f548061b20225a3c43e7106600a40e152992d"
+    }
+  ],
+  "changes": {
+    "src/learning-ai-provider.mjs": "Restored standalone server adapter re-export; no transport executed by importing.",
+    "src/workflow.mjs": "Restored proven demo live workflow, plus safe consumed-budget status for persistent export allowance.",
+    "app.mjs": "Derived from demo server; CLI removed; configured origin injected.",
+    "data/showcase.json": "Read-only safe workflow projection of existing synthetic approved run; original feedback and decision preserved.",
+    "public/replay-app.mjs": "Authentication expiry redirects to login. Persistent, installation-wide consumed status is respected.",
+    "public/replay.html": "Session privacy notice and logout control.",
+    "public/style.css": "Added responsive login form and visitor-session notice styles.",
+    "src/nebius-provider.mjs": "Byte-identical standalone demo adapter; lazy server-only credential access; transport mock injection retained.",
+    "server.mjs": "Default jury simulation unchanged. Explicit dual-flag live startup; shared persistent installation allowance; no credential read at construction.",
+    "tests/nebius-provider.test.mjs": "Existing standalone transport mocks retained; persistent allowance and authenticated hosted-mock chain added."
+  },
+  "newFiles": [
+    "server.mjs",
+    "tests/hosting.test.mjs",
+    "scripts/verify-export.mjs",
+    "render.yaml",
+    "INSTALL.en.md",
+    "NOTICE.md",
+    "LICENSE",
+    "FILE-LIST.md",
+    "manifest.json",
+    ".gitignore",
+    "package.json",
+    "src/persistent-live-budget.mjs",
+    "README.md"
+  ],
+  "licenseDecision": {
+    "license": "MIT",
+    "copyrightHolder": "Katja Gries",
+    "approvedDate": "2026-10-29",
+    "scope": "This standalone export only; private Education platform excluded",
+    "changes": "Activated LICENSE; updated documentation and manifest; runtime code and historical evidence unchanged."
+  }
+}
