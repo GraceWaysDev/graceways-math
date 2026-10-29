@@ -1,19 +1,24 @@
 {
-  "version": 3,
-  "scope": "GraceWays Math standalone publication candidate with opt-in Nebius adapter",
+  "version": 4,
+  "scope": "Separate GraceWays Math Cloudflare local trial; original Node runtime retained",
   "licenseActive": true,
   "liveProviderIncluded": true,
   "defaultMode": "LOCAL_SIMULATION",
   "files": [
     {
       "path": ".gitignore",
-      "bytes": 40,
-      "sha256": "e69bea9334c671ff100b5cd81322e8c6fcf78dc83563e5d3d0118c1381539f0a"
+      "bytes": 80,
+      "sha256": "0e6039b706605d22afa77095c9ca86a129f66e1105186738d4cb72703635ca65"
+    },
+    {
+      "path": "CLOUDFLARE.md",
+      "bytes": 6976,
+      "sha256": "6c5b8b4e3e434c8728a82e09da670f64e93026cab9d6a053377dd3df85868f55"
     },
     {
       "path": "FILE-LIST.md",
-      "bytes": 2654,
-      "sha256": "047abbb39232b724168f437facfeecbbf6b1c028e455a0498520d47d4f1aec5d"
+      "bytes": 1188,
+      "sha256": "3258e64c803746da7666d7da6a86278d8448be723fe336eb3c6449e4dafba1d6"
     },
     {
       "path": "INSTALL.en.md",
@@ -32,18 +37,33 @@
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 5313,
-      "sha256": "5c402693984a492a0f990067255fa54f1ab966a933e414d5ca5c2c8f1394241f"
+      "bytes": 5960,
+      "sha256": "4a55d3dfee1af381074b6d54d1eac511262eaa1b4dc55ad0d100cb43b13492c0"
     },
     {
       "path": "README.md",
-      "bytes": 6102,
-      "sha256": "76367e1e806f9c4899fda033ef14028cbd4c042ae482acd9f537195d62be6031"
+      "bytes": 6416,
+      "sha256": "dbedf909d3992f4d19461ed82a55f881135d9ec8d712aaf2a3770a625277941c"
     },
     {
       "path": "app.mjs",
       "bytes": 3344,
       "sha256": "7433fbcc5d1f8e6f090ea50811a2faad08f3aae5291185438c74a3f0c03e309c"
+    },
+    {
+      "path": "cloudflare/handler.mjs",
+      "bytes": 9849,
+      "sha256": "523470bfb89b9d1fee70e514ad74771d59d654bbc2b6178b5a634d6112c234bc"
+    },
+    {
+      "path": "cloudflare/sql-store.mjs",
+      "bytes": 3260,
+      "sha256": "e5a36e66f997f379e3207bcfa3555e1248633bcd8fcdba6ec9e4e3794f3a925f"
+    },
+    {
+      "path": "cloudflare/worker.mjs",
+      "bytes": 700,
+      "sha256": "4b7f20fdfdbb0bc2dc4b3f55913669b6ed826acaa16e6fe2cf20984f3ea9f005"
     },
     {
       "path": "data/showcase.json",
@@ -87,8 +107,8 @@
     },
     {
       "path": "scripts/verify-export.mjs",
-      "bytes": 1624,
-      "sha256": "14c280583c49804c6b61abcb3aec7f5bf901642f6e18af164fb74f68a6c514b0"
+      "bytes": 1655,
+      "sha256": "4e4f8a7f6cbdded0b7132b8e9f7c6b73bad14aa9e0f703086b8ec06024d71d9f"
     },
     {
       "path": "server.mjs",
@@ -141,6 +161,11 @@
       "sha256": "0c858b84102c160743ea216cfdf0ff11972c823f41b17307f50a778f817e5a21"
     },
     {
+      "path": "tests/cloudflare.test.mjs",
+      "bytes": 8734,
+      "sha256": "da0c3e1aca40afeaee9a56234209f218ba05ef788afd9f161dcdd83773cce74d"
+    },
+    {
       "path": "tests/hosting.test.mjs",
       "bytes": 6158,
       "sha256": "a7a491639c0998929b763c9721c5beef3ebc7bffb9b09e3eb4b5316b658ea54c"
@@ -159,6 +184,11 @@
       "path": "tests/workflow.test.mjs",
       "bytes": 3636,
       "sha256": "916c42621bb6a5a0928af69ecaf37d7309a201403f81ab7302e0cf34842fe91d"
+    },
+    {
+      "path": "wrangler.jsonc",
+      "bytes": 569,
+      "sha256": "baf53b369fdff924195fef1ca4299fe325657c5187dd5f035f22e2d5f569d6c9"
     }
   ]
 }

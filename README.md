@@ -75,3 +75,7 @@ Provider tests inject synthetic credentials and transport mocks; they never read
 Keep the hosted jury preview, its persistent storage and a valid jury access code available continuously until the evaluation phase ends. Do not expire the shared access code, suspend/delete the service or remove the curated evidence before judging is complete. Individual 24-hour sessions may expire; jury members must be able to sign in again. The owner must confirm the official end date, fund hosting through that date and name a contact for access problems. Agree retention/deletion only after the judging period. No end date is inferred here.
 
 See INSTALL.en.md for the deployment sequence and cost baseline. The MIT license is active for this export. No upload, deployment or live call has been performed.
+
+## Separate Cloudflare trial
+
+See [CLOUDFLARE.md](CLOUDFLARE.md) for the isolated SQLite-backed Durable Object deployment. The original Node server and optional one-shot Nebius mode are unchanged. The Cloudflare entrypoint supports simulation and read-only saved evidence only; it cannot initiate live inference.

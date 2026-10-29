@@ -119,5 +119,20 @@
     "approvedDate": "2026-10-29",
     "scope": "This standalone export only; private Education platform excluded",
     "changes": "Activated LICENSE; updated documentation and manifest; runtime code and historical evidence unchanged."
+  },
+  "cloudflareTrial": {
+    "date": "2026-10-30",
+    "scope": "Separate local trial; no remote deployment or main-branch change",
+    "unchanged": "All original runtime modules, public assets and historical showcase",
+    "new": [
+      "cloudflare/worker.mjs",
+      "cloudflare/handler.mjs",
+      "cloudflare/sql-store.mjs",
+      "tests/cloudflare.test.mjs",
+      "wrangler.jsonc",
+      "CLOUDFLARE.md"
+    ],
+    "storage": "SQLite-backed Durable Object; synchronous SQL contract; one isolated object for this bounded demo",
+    "liveMode": "Cloudflare entrypoint simulation-only. Original optional Node Nebius mode remains included."
   }
 }

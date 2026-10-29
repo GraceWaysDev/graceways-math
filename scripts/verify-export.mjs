@@ -10,7 +10,7 @@ for(const item of manifest.files){
  const file=resolve(root,item.path),bytes=readFileSync(file),text=bytes.toString('utf8');
  if(createHash('sha256').update(bytes).digest('hex')!==item.sha256)throw Error('DIGEST_MISMATCH: '+item.path);
  if(item.path.endsWith('.mjs'))for(const m of text.matchAll(/(?:from\s*|import\s*)['"]([^'"]+)['"]/g)){
-  if(m[1].startsWith('node:'))continue;
+  if(m[1].startsWith('node:') || m[1]==='cloudflare:workers')continue;
   const target=resolve(dirname(file),m[1]);if(!m[1].startsWith('.')||relative(root,target).startsWith('..')||!existsSync(target))throw Error('IMPORT_OUTSIDE_EXPORT: '+item.path);edges++;
  }
  if(/(?:[CD]:[\\/]|BEGIN (?:RSA |OPENSSH )?PRIVATE KEY)/.test(text))throw Error('PRIVATE_PATH_OR_KEY_MATERIAL: '+item.path);
