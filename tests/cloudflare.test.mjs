@@ -144,3 +144,20 @@ test('Cloudflare assets invoke worker first and runtime dependencies are isolate
   const code = readFileSync(new URL('../cloudflare/handler.mjs', import.meta.url), 'utf8');
   assert.doesNotMatch(code, /node:fs|NEBIUS_API_KEY|persistent-live-budget/);
 });
+
+test('tangent HTTP workflow persists across handler restart; historical example unchanged', async () => {
+ const db=new DatabaseSync(':memory:');
+ try {
+  const backing=storage(db);let handle=createCloudflareHandler(backing,env);const cookie=await login(handle);
+  const before=await (await handle(request('/api/jury-example',cookie))).json();
+  const catalog=await (await handle(request('/api/tasks',cookie))).json();assert.ok(catalog.tasks.some(t=>t.id==='tangent-exam'));
+  const run=await (await handle(request('/api/run',cookie,{taskId:'tangent-exam',steps:[],solution:'y=33/5*x-59/10',scenario:'positive'}))).json();
+  assert.equal(run.status,'HUMAN_REVIEW');assert.equal(run.report.expected.point.y,'4');
+  handle=createCloudflareHandler(backing,env);
+  const saved=await (await handle(request('/api/runs/'+run.id,cookie))).json();assert.deepEqual(saved.run.report,run.report);
+  const released=await (await handle(request('/api/review',cookie,{id:run.id,bindingHash:run.bindingHash,decision:'APPROVE',comment:'Synthetic tangent test only',displayToken:saved.displayToken}))).json();
+  assert.equal(released.status,'RELEASED');assert.equal(released.nextTask.id,'tangent-next');
+  assert.deepEqual(await (await handle(request('/api/jury-example',cookie))).json(),before);
+  assert.equal((await (await handle(request('/api/live-status',cookie))).json()).counts.inference_calls,0);
+ }finally{db.close();}
+});

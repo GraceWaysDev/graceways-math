@@ -2,11 +2,16 @@ const $=id=>document.getElementById(id);let catalog=[],current=null,displayToken
 async function api(path,body){const r=await fetch(path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Local-Demo':'1'}:{},body:body?JSON.stringify(body):undefined});if(r.status===401){location.assign('/login');throw Error('Session expired. Please sign in.');}const d=await r.json();if(!r.ok)throw Error(d.error);return d;}
 
 const tr=(de,en)=>lang==='en'?en:de;
-const taskNames={linear:'Linear equation',quadratic:'Two real roots','lost-root':'Keep the zero root',irrational:'Exact radical notation',empty:'No real solution','linear-next':'Next step: linear','quadratic-next':'Next step: quadratic'};
+const taskNames={'tangent-exam':'Exam task: tangent to a quartic polynomial','tangent-next':'Further practice: tangent to a cubic polynomial',linear:'Linear equation',quadratic:'Two real roots','lost-root':'Keep the zero root',irrational:'Exact radical notation',empty:'No real solution','linear-next':'Next step: linear','quadratic-next':'Next step: quadratic'};
 function localizeStatic(){
  if(document.documentElement)document.documentElement.lang=lang;
  for(const el of document.querySelectorAll?.('[data-de]')??[])el.textContent=el.getAttribute('data-'+lang);
  for(const option of $('task').children)option.textContent=lang==='en'?(taskNames[option.value]??option.textContent):(catalog.find(t=>t.id===option.value)?.title??option.textContent);
+ const tangent=catalog.find(t=>t.id===$('task').value)?.kind==='TANGENT';
+ const solutionLabel=document.querySelector?.('label[for="solution"]'),stepsLabel=document.querySelector?.('label[for="steps"]');
+ if(solutionLabel)solutionLabel.textContent=tangent?tr('Tangentengleichung · y = m*x + b','Tangent equation · y = m*x + b'):tr('Vollständige reelle Lösungsmenge','Complete real solution set');
+ if(stepsLabel)stepsLabel.textContent=tangent?tr('Optional: weitere Tangentengleichungen · keine Ableitungszeilen','Optional: further tangent equations · no derivative steps'):tr('Zwischenschritte · eine Gleichung pro Zeile','Working · one equation per line');
+ $('solution').placeholder=tangent?'y = m*x + b':'{-2; 2}';
  if(typeof document.title==='string')document.title=tr('GraceWays Math · Feedback mit Verantwortung','GraceWays Math · Feedback with responsibility');
  $('langDe').setAttribute('aria-pressed',String(lang==='de'));$('langEn').setAttribute('aria-pressed',String(lang==='en'));
  $('providerBadge').textContent=live?tr('NEBIUS · BEGRENZTE SITZUNG','NEBIUS · LIMITED SESSION'):tr('SIMULATION · OFFLINE','SIMULATION · OFFLINE');
@@ -23,8 +28,8 @@ function readableProposal(target,p){
 function present(r){
  $('savedNotice').textContent=r.juryReadOnly?tr('Gespeicherter realer Nebius-Lauf. Nur lesend, kein neuer Aufruf.','Saved real Nebius record. Read-only, no new call.'):r.proposal?tr('Vollständig aus dem gespeicherten Lauf geladen. Keine Provideranfrage.','Loaded entirely from the saved record. No provider request.'):'';
  if(r.juryReadOnly)$('providerBadge').textContent=tr('GESPEICHERTER NEBIUS-LAUF · NUR LESEND','SAVED NEBIUS RECORD · READ-ONLY');
- $('findings').replaceChildren();const verdict=document.createElement('p');verdict.className='result-verdict';verdict.textContent=r.report.verdict==='CORRECT'?tr('Die Lösungsmenge stimmt.','The solution set is correct.'):r.report.verdict==='INCORRECT'?tr('Hier lohnt ein zweiter Blick.','Take another look.'):tr('Eine Klärung ist erforderlich.','Clarification is needed.');$('findings').append(verdict);
- const set=v=>v?.kind==='FINITE'?'{'+(v.values??[]).join('; ')+'}':v?.kind??'—';
+ $('findings').replaceChildren();const verdict=document.createElement('p');verdict.className='result-verdict';verdict.textContent=r.report.verdict==='CORRECT'?(r.report.checker==='exact-polynomial-tangent-v1'?tr('Die Tangentengleichung stimmt.','The tangent equation is correct.'):tr('Die Lösungsmenge stimmt.','The solution set is correct.')):r.report.verdict==='INCORRECT'?tr('Hier lohnt ein zweiter Blick.','Take another look.'):tr('Eine Klärung ist erforderlich.','Clarification is needed.');$('findings').append(verdict);
+ const set=v=>v?.kind==='TANGENT'?'y = '+v.slope+'*x + ('+v.intercept+')':v?.kind==='FINITE'?'{'+(v.values??[]).join('; ')+'}':v?.kind??'—';
  section($('findings'),tr('Unabhängiger Mathematikprüfer','Independent mathematics checker'),[tr('Erwartet: ','Expected: ')+set(r.report.expected),tr('Eingereicht: ','Submitted: ')+set(r.report.submitted),...(r.report.steps??[]).map(x=>tr('Schritt ','Step ')+x.index+': '+x.status)]);
  $('draft').replaceChildren();if(r.proposal){const tag=document.createElement('span');tag.className='feedback-tag';tag.textContent=r.provider==='NEBIUS_LIVE'?tr('GESPEICHERTE NEBIUS-ANTWORT · KI-TEXT UNGEPRÜFT','SAVED NEBIUS RESPONSE · AI TEXT UNVERIFIED'):tr('LOKALER TESTANBIETER · SYNTHETISCH','LOCAL TEST PROVIDER · SYNTHETIC');$('draft').append(tag);
  if(lang==='en'&&translation){const note=document.createElement('p');note.className='translation-notice';note.textContent='English translation prepared for the jury, not a new Nebius response. The translation has not been separately approved. The unchanged German original follows below and remains authoritative.';$('draft').append(note);readableProposal($('draft'),translation);section($('draft'),'Unchanged German original',[]);}
@@ -57,7 +62,7 @@ function choose(id){$('task').value=id;$('equation').textContent=catalog.find(t=
 const inputsMatch=()=>current&&$('task').value===current.task.id&&$('steps').value===current.attempt.steps.join('\n')&&$('solution').value===current.attempt.solution;
 function enableReview(){const yes=current?.status==='HUMAN_REVIEW'&&!current.juryReadOnly&&!!displayToken&&inputsMatch()&&$('readComplete').checked;$('approve').disabled=$('reject').disabled=!yes;}
 function render(r,token=null){
- invalidate();current=r;displayToken=token;$('task').value=r.task.id;$('equation').textContent=r.task.equation;$('steps').value=r.attempt.steps.join('\n');$('solution').value=r.attempt.solution;$('comment').value='';
+ invalidate();current=r;displayToken=token;$('task').value=r.task.id;$('equation').textContent=r.task.equation;$('steps').value=r.attempt.steps.join('\n');$('solution').value=r.attempt.solution;$('comment').value='';localizeStatic();
  $('status').textContent=tr('Mathematik: ','Mathematics: ')+r.report.verdict+' · Pre-Guardian: '+r.pre+' · Post-Guardian: '+(technicalErrors.has(r.error)?tr('NOT_REACHED – keine neue Modellantwort','NOT_REACHED — no new model response'):r.post);
  if(r.error)$('providerStatus').textContent=(r.error==='CALL_LIMIT'?'Aufruflimit: ':technicalErrors.has(r.error)?'Technischer Providerfehler: ':'Ausgabevalidierung: ')+r.error;
  box('proof',tr('UNVERÄNDERTE PRÜFVORLAGE\nLauf: ','UNCHANGED REVIEW RECORD\nRun: ')+r.id+tr('\nBindung: ','\nBinding: ')+r.bindingHash+tr('\nZeit: ','\nCreated: ')+r.createdAt+tr('\nEmpfangen: ','\nReceived: ')+(r.receivedAt??tr('nicht erfasst','not recorded'))+tr('\nAnbieter: ','\nProvider: ')+r.provider+tr('\nModell: ','\nModel: ')+r.model+'\nProvider-Response-ID: '+(r.responseId??tr('nicht verfügbar','not available')));

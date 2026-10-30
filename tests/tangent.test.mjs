@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {checkTangent,verify} from '../src/math.mjs';
+import {createWorkflow} from '../src/workflow.mjs';
+const exam={polynomial:'-4/5*x^4+29/5*x^2-5',at:'3/2',solution:'y=33/5*x-59/10'};
+test('FOS tangent: exact derivative, contact point and intercept',()=>{const r=checkTangent(exam);assert.equal(r.verdict,'CORRECT');assert.deepEqual(r.expected,{kind:'TANGENT',slope:'33/5',intercept:'-59/10',point:{x:'3/2',y:'4'}});});
+for(const solution of ['y=6.6*x-5.9','t(x)=4+33/5*(x-3/2)','y=(66*x-59)/10'])test('equivalent tangent '+solution,()=>assert.equal(checkTangent({...exam,solution}).verdict,'CORRECT'));
+for(const solution of ['y=33/5*x+59/10','y=4','y=33/5*x','y=6.600001*x-5.9'])test('reject incorrect tangent '+solution,()=>assert.equal(checkTangent({...exam,solution}).verdict,'INCORRECT'));
+for(const extra of [{polynomial:'x^5'},{polynomial:'1/x'},{polynomial:'sin(x)'},{at:'sqrt(2)'},{solution:'y=x^2'},{steps:["f'(x)=33/5"]},{solution:'y=1/0*x'},{polynomial:'x^4*x'},{solution:'y='+ '1'.repeat(251)}])test('fail closed '+JSON.stringify(extra),()=>assert.equal(checkTangent({...exam,...extra}).verdict,'UNKNOWN'));
+test('invalid tangent step cannot be repaired by final result',()=>assert.equal(checkTangent({...exam,steps:['y=x']}).verdict,'INCORRECT'));
+test('constant function has horizontal tangent',()=>assert.equal(checkTangent({polynomial:'7',at:'-2',solution:'y=7'}).verdict,'CORRECT'));
+test('negative rational point and unary precedence',()=>{const r=checkTangent({polynomial:'-x^4',at:'-1/2',solution:'y=1/2*x+3/16'});assert.equal(r.verdict,'CORRECT');});
+test('old equation checker still rejects quartics',()=>assert.equal(verify({equation:'x^4=1',solution:'{-1;1}'}).verdict,'UNKNOWN'));
+test('generated cubics satisfy independent analytic derivative formula',()=>{for(let a=-3;a<=3;a++)for(let x=-2;x<=2;x++){const m=3*a*x*x+2*x-2,b=a*x*x*x+x*x-2*x+1-m*x;assert.equal(checkTangent({polynomial:`${a}*x^3+x^2-2*x+1`,at:String(x),solution:`y=${m}*x+(${b})`}).verdict,'CORRECT');}});
+test('tangent workflow binds report, requires human review, chooses tangent follow-up',async()=>{const f=createWorkflow(),r=await f.run({taskId:'tangent-exam',steps:[],solution:exam.solution,scenario:'positive'});assert.equal(r.status,'HUMAN_REVIEW');assert.equal(r.report.verdict,'CORRECT');assert.equal(r.proposalMathVerified,false);assert.equal(r.nextTask,null);const released=f.review({id:r.id,bindingHash:r.bindingHash,decision:'APPROVE',comment:'Synthetic test only'});assert.equal(released.nextTask.id,'tangent-next');const next=await f.run({taskId:'tangent-next',steps:[],solution:'y=10*x-15',scenario:'positive'});assert.equal(next.report.verdict,'CORRECT');});
+test('unsupported tangent blocks before provider, contradiction rejected',async()=>{const f=createWorkflow(),r=await f.run({taskId:'tangent-exam',steps:['Ableitung'],solution:exam.solution,scenario:'positive'});assert.equal(r.status,'INPUT_REVIEW');assert.equal(f.counts.simulated,0);const bad=await f.run({taskId:'tangent-exam',steps:[],solution:exam.solution,scenario:'contradiction'});assert.equal(bad.status,'BLOCKED');});

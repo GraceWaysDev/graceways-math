@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "scope": "Separate GraceWays Math Cloudflare local trial; original Node runtime retained",
   "licenseActive": true,
   "liveProviderIncluded": true,
@@ -37,13 +37,18 @@
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 5960,
-      "sha256": "4a55d3dfee1af381074b6d54d1eac511262eaa1b4dc55ad0d100cb43b13492c0"
+      "bytes": 6465,
+      "sha256": "7c54a8b640285ff6fadc2aa17abaa5ea42364e3af5248a285a5139d2aca2efe7"
     },
     {
       "path": "README.md",
       "bytes": 6416,
       "sha256": "dbedf909d3992f4d19461ed82a55f881135d9ec8d712aaf2a3770a625277941c"
+    },
+    {
+      "path": "TANGENT-EXTENSION.md",
+      "bytes": 1869,
+      "sha256": "51818b677cdb3c5b1ddd7aa785879cdf2b2b540ccb1f691d241831f4ef17dd9a"
     },
     {
       "path": "app.mjs",
@@ -77,13 +82,13 @@
     },
     {
       "path": "public/replay-app.mjs",
-      "bytes": 17931,
-      "sha256": "e94edf23ec9416e8822dcc9228caf74f6c8fa7256bf73b3d6222c72650e37b95"
+      "bytes": 18981,
+      "sha256": "6ff96d7b2b45f195f5fe09b77f143cc48a59964070265523fc0af9090b8847e6"
     },
     {
       "path": "public/replay.html",
-      "bytes": 13516,
-      "sha256": "d36b8475d7b426574d18ac82378e4b3d5425f651855a3c06a06ca52324d64300"
+      "bytes": 14031,
+      "sha256": "647eb36d112695a1e795605d2a68be967d870e1496a98db92a96a705d00d03df"
     },
     {
       "path": "public/style.css",
@@ -142,8 +147,8 @@
     },
     {
       "path": "src/math.mjs",
-      "bytes": 6812,
-      "sha256": "0e8102689c25bd5ec4ff95d265eebda84436a8a46506407b96e93e1ad41dca24"
+      "bytes": 9269,
+      "sha256": "9344468eee5898fda268add86bdb4f3968c36080204bcb1d9b171348603ede9a"
     },
     {
       "path": "src/nebius-provider.mjs",
@@ -157,13 +162,13 @@
     },
     {
       "path": "src/workflow.mjs",
-      "bytes": 9546,
-      "sha256": "0c858b84102c160743ea216cfdf0ff11972c823f41b17307f50a778f817e5a21"
+      "bytes": 10616,
+      "sha256": "44caecefc7219492795826daefa431e4d2e6c480ef4a11b8a8943b332da626b3"
     },
     {
       "path": "tests/cloudflare.test.mjs",
-      "bytes": 9722,
-      "sha256": "96f2e44a086dde0de046db2d3a1d6f2e4f76ef040be09e7ed7908570f8d9f72a"
+      "bytes": 11136,
+      "sha256": "bab52c2dc821412604415cced48334349ad02702e0488876947329c89e7c5af9"
     },
     {
       "path": "tests/hosting.test.mjs",
@@ -179,6 +184,11 @@
       "path": "tests/nebius-provider.test.mjs",
       "bytes": 14674,
       "sha256": "582bb2a0b1565e72e18cd2e6577034e80cf8002ec90a6e29221af06d31968fa9"
+    },
+    {
+      "path": "tests/tangent.test.mjs",
+      "bytes": 3173,
+      "sha256": "745ed055f3fb6bc3cce3300f3898939398b474884c4fb42f67206e92b4762b35"
     },
     {
       "path": "tests/workflow.test.mjs",

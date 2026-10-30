@@ -11,7 +11,7 @@ function tokens(text){if(typeof text!=='string'||text.length>250)unsupported();t
 function number(s){if(!/^\d+(?:\.\d{1,6})?$/.test(s)||s.length>12)unsupported();const [a,b='']=s.split('.');return q(BigInt(a+b),10n**BigInt(b.length));}
 function parseExpression(text,algebra){const t=tokens(text);let i=0,depth=0;const take=()=>t[i++];
  function atom(){if(++depth>20)unsupported();let v;const a=take();if(a==='('){v=sum();if(take()!==')')unsupported();}else if(a==='x'){if(!algebra.variable)unsupported();v=algebra.variable();}else if(a==='sqrt'){if(!algebra.sqrt||take()!=='(')unsupported();const r=sum();if(take()!==')')unsupported();v=algebra.sqrt(r);}else v=algebra.constant(number(a??''));depth--;return v;}
- function power(){let v=atom();if(t[i]==='^'){take();const e=take();if(!['1','2'].includes(e))unsupported();if(e==='2')v=algebra.mul(v,v);}return v;}
+ function power(){let v=atom();if(t[i]==='^'){take();const e=take();if(!/^[1-4]$/.test(e)||Number(e)>(algebra.maxPower??2))unsupported();const base=v;for(let k=1;k<Number(e);k++)v=algebra.mul(v,base);}return v;}
  function unary(){if(t[i]==='+'){take();return unary();}if(t[i]==='-'){take();return algebra.neg(unary());}return power();}
  function product(){let v=unary();while(i<t.length){const op=t[i];if(op==='*'||op==='/'){take();const r=unary();v=op==='*'?algebra.mul(v,r):algebra.div(v,r);}else if(op==='x'||op==='('||op==='sqrt'){v=algebra.mul(v,unary());}else break;}return v;}
  function sum(){let v=product();while(t[i]==='+'||t[i]==='-'){const op=take(),r=product();v=algebra.add(v,op==='+'?r:algebra.neg(r));}return v;}
@@ -43,5 +43,30 @@ export function verify({equation,steps=[],solution}){
  result.complete=setKey(original)===setKey(final);
  result.verdict=(!invalid&&result.complete)?'CORRECT':'INCORRECT';
  result.reason=invalid?'NON_EQUIVALENT_STEP':result.complete?'COMPLETE_REAL_SOLUTION_SET':'SOLUTION_SET_MISMATCH';
+ return result;
+}
+
+// Separate bounded polynomial operations for tangent checks. The equation solver
+// above retains its original degree-two algebra and historical report format.
+export function checkTangent({polynomial:expression,at,solution,steps=[]}) {
+ const result={checker:'exact-polynomial-tangent-v1',verification_source:'DETERMINISTIC_CHECKER',verdict:'UNKNOWN',reason:'UNSUPPORTED_INPUT',expected:null,submitted:null,steps:[],complete:false};
+ const size=5,blank=()=>Array.from({length:size},zero);
+ const algebra={maxPower:4,constant:a=>[a,...Array.from({length:4},zero)],variable:()=>[zero(),one(),zero(),zero(),zero()],add:(a,b)=>a.map((v,i)=>add(v,b[i])),neg:a=>a.map(neg),mul:(a,b)=>{const r=Array.from({length:9},zero);for(let i=0;i<size;i++)for(let j=0;j<size;j++)r[i+j]=add(r[i+j],mul(a[i],b[j]));if(r.slice(size).some(v=>v.n))unsupported();return r.slice(0,size);},div:(a,b)=>{if(b.slice(1).some(v=>v.n))unsupported();return a.map(v=>div(v,b[0]));}};
+ const parse=s=>parseExpression(s,algebra);
+ const constant=s=>{const a=parse(s);if(a.slice(1).some(v=>v.n))unsupported();return a[0];};
+ const value=(a,x)=>a.reduceRight((acc,v)=>add(mul(acc,x),v),zero());
+ const line=s=>{if(typeof s!=='string')unsupported();const parts=s.split('=');if(parts.length!==2||!['y','t(x)'].includes(parts[0].trim()))unsupported();const a=parse(parts[1]);if(a.slice(2).some(v=>v.n))unsupported();return a;};
+ const exposed=a=>({kind:'TANGENT',slope:qs(a[1]),intercept:qs(a[0])});
+ try {
+  if(!Array.isArray(steps)||steps.length>8)unsupported();
+  const f=parse(expression),x=constant(at),derivative=f.slice(1).map((v,i)=>mul(q(i+1),v));
+  const slope=value(derivative,x),y=value(f,x),expected=blank();expected[0]=sub(y,mul(slope,x));expected[1]=slope;
+  result.expected={...exposed(expected),point:{x:qs(x),y:qs(y)}};
+  const equal=a=>a.every((v,i)=>qs(v)===qs(expected[i]));
+  let invalid=false;
+  for(let i=0;i<steps.length;i++){const a=line(steps[i]),ok=equal(a);result.steps.push({index:i+1,status:ok?'EQUIVALENT':'NON_EQUIVALENT',tangent:exposed(a)});if(!ok)invalid=true;}
+  const answer=line(solution);result.submitted=exposed(answer);result.complete=equal(answer);
+  result.verdict=result.complete&&!invalid?'CORRECT':'INCORRECT';result.reason=invalid?'INCORRECT_TANGENT_STEP':result.complete?'EXACT_TANGENT_MATCH':'TANGENT_MISMATCH';
+ }catch {result.reason='UNSUPPORTED_TANGENT_INPUT';}
  return result;
 }

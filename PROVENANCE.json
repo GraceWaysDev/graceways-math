@@ -134,5 +134,15 @@
     ],
     "storage": "SQLite-backed Durable Object; synchronous SQL contract; one isolated object for this bounded demo",
     "liveMode": "Cloudflare entrypoint simulation-only. Original optional Node Nebius mode remains included."
+  },
+  "tangentExtension": {
+    "date": "2026-10-30",
+    "modified": [
+      "src/math.mjs",
+      "src/workflow.mjs",
+      "public/replay-app.mjs",
+      "public/replay.html"
+    ],
+    "note": "Original source hashes above identify the starting files. Listed files now include the independently implemented bounded tangent extension. No private Education platform dependencies added. Exam polynomial and evaluation point transcribed from user-provided FOS 2024, task 2.2; original PDF not included."
   }
 }

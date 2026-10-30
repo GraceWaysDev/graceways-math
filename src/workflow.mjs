@@ -1,9 +1,12 @@
 import {randomUUID} from 'node:crypto';
-import {verify} from './math.mjs';
+import {verify,checkTangent} from './math.mjs';
+const verifyAttempt=(task,attempt)=>task.kind==='TANGENT'?checkTangent({polynomial:task.polynomial,at:task.at,...attempt}):verify({equation:task.equation,...attempt});
 import {hash,createBoundRequest,bindingValid} from './binding.mjs';
 import {createSimulatedLearningAIProvider,createLearningAIProvider,validateLearningAIResult} from './learning-ai-provider.mjs';
 import {createBrowserAdmission} from './admission.mjs';
 export const tasks=Object.freeze([
+ {id:'tangent-exam',kind:'TANGENT',title:'Prüfungsaufgabe: Tangente an eine Funktion 4. Grades',polynomial:'-4/5*x^4+29/5*x^2-5',at:'3/2',equation:'f(x) = -4/5*x^4 + 29/5*x^2 - 5; Tangente bei x = 3/2',steps:[],solution:'y = 33/5*x - 59/10',follow:'tangent-next'},
+ {id:'tangent-next',kind:'TANGENT',title:'Vertiefung: Tangente an eine kubische Funktion',polynomial:'x^3-2*x+1',at:'2',equation:'f(x) = x^3 - 2*x + 1; Tangente bei x = 2',steps:[],solution:'y = 10*x - 15',follow:'tangent-exam'},
  {id:'linear',title:'Lineare Gleichung',equation:'3(x + 2) = 21',steps:['3x + 6 = 21','3x = 15','x = 5'],solution:'{5}',follow:'linear-next'},
  {id:'quadratic',title:'Zwei reelle Wurzeln',equation:'x^2 = 4',steps:['(x - 2)(x + 2) = 0'],solution:'{-2; 2}',follow:'quadratic-next'},
  {id:'lost-root',title:'Null als Lösung erhalten',equation:'x^2 = x',steps:['x(x - 1) = 0'],solution:'{0; 1}',follow:'quadratic'},
@@ -16,6 +19,7 @@ const exact=(o,keys)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).
 function need(ok,code){if(!ok)throw Error(code);}
 export function controlledFeedback(report){
  if(report.verdict==='UNKNOWN')return 'Nicht entscheidbar im unterstützten Umfang. Eingabe oder Schritt gemeinsam klären; kein Modellaufruf.';
+ if(report.checker==='exact-polynomial-tangent-v1')return report.verdict==='CORRECT'?'Steigung und Achsenabschnitt der Tangente stimmen exakt mit Ableitung und Berührpunkt überein. Freitextbegründungen wurden nicht geprüft.':'Die Tangentengleichung oder eine eingegebene Tangentenzeile stimmt nicht mit der unabhängig berechneten Tangente überein. Prüfe Ableitung, Steigung und Berührpunkt.';
  if(report.reason==='NON_EQUIVALENT_STEP')return 'Mindestens ein Zwischenschritt verändert die reelle Lösungsmenge. Vergleiche die markierten Gleichungen; insbesondere kann Division durch x eine Lösung verlieren.';
  if(report.verdict==='INCORRECT')return 'Die angegebene Lösungsmenge stimmt nicht vollständig mit der unabhängig berechneten reellen Lösungsmenge überein. Prüfe fehlende oder zusätzliche Wurzeln.';
  return 'Die vollständige reelle Lösungsmenge stimmt überein. Alle eingegebenen Gleichungszeilen sind im unterstützten Umfang äquivalent. Nicht eingegebene Begründungen wurden nicht geprüft.';
@@ -26,7 +30,7 @@ export function createWorkflow({mode='LOCAL_SIMULATION',liveProvider,store=null}
  const records=new Map(),drafted=new Set(),admission=createBrowserAdmission({intervalMs:0,maxAttempts:100,maxBudget:3000000});let calls=0;
  function validateStored(r){
  need(r&&bindingValid(r.request)&&hash({id:r.id,task:r.task,attempt:r.attempt,report:r.report,request:r.request})===r.bindingHash,'STORAGE_INTEGRITY');
- need(hash(verify({equation:r.task.equation,...r.attempt}))===hash(r.report)&&hash(r.request.verification.report)===hash(r.report),'STORAGE_INTEGRITY');
+ need(hash(verifyAttempt(r.task,r.attempt))===hash(r.report)&&hash(r.request.verification.report)===hash(r.report),'STORAGE_INTEGRITY');
  need(r.proposal&&hash(r.proposal)===r.proposalHash&&['HUMAN_REVIEW','RELEASED','REJECTED'].includes(r.status),'STORAGE_INTEGRITY');
  validateLearningAIResult('REVIEW',r.proposal,r.request.input);return r;
  }
@@ -39,8 +43,8 @@ export function createWorkflow({mode='LOCAL_SIMULATION',liveProvider,store=null}
   need(['positive','contradiction','false_verification','wrong_report','wrong_binding','malformed','incomplete','PROVIDER_UNAVAILABLE'].includes(raw.scenario),'UNKNOWN_SIMULATION');
   if(live)need(raw.scenario==='positive','SIMULATION_SCENARIO_IN_LIVE');
   need(records.size<100,'SESSION_LIMIT_RESTART_SERVER');
-  const attempt={steps:[...raw.steps],solution:raw.solution},report=verify({equation:task.equation,...attempt});
-  const input={subject:'Mathematik – synthetische Demo',title:task.title,instruction:task.equation,answer:JSON.stringify(attempt),teacher_notes:'Nur exact-polynomial-v1 verifiziert. Befunde: '+JSON.stringify(report)};
+  const attempt={steps:[...raw.steps],solution:raw.solution},report=verifyAttempt(task,attempt);
+  const input={subject:'Mathematik – synthetische Demo',title:task.title,instruction:task.equation,answer:JSON.stringify(attempt),teacher_notes:'Nur der unabhängige Prüfer '+report.checker+' verifiziert. Befunde: '+JSON.stringify(report)};
   const id=randomUUID(),request=createBoundRequest({id,kind:'REVIEW',input,report});
   const bindingHash=hash({id,task,attempt,report,request}),r={id,task,attempt,report,request,bindingHash,provider:mode,createdAt:new Date().toISOString(),status:'CHECKING',pre:report.verdict==='UNKNOWN'?'REVIEW':'PASS',post:'NOT_REACHED',proposal:null};
   records.set(id,r);
