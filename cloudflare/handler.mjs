@@ -7,7 +7,8 @@ import {createSqlState, createSqlRunStore} from './sql-store.mjs';
 const digest = text => createHash('sha256').update(text).digest();
 const same = (a,b) => timingSafeEqual(digest(a), digest(b));
 const headers = {
-  'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
+  // Preserve Origin on same-origin native form POSTs; do not disclose referrers cross-origin.
+  'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin',
   'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
 };
 const login = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GraceWays Math · Jury access</title><link rel="stylesheet" href="/style.css"><main class="login"><h1>GraceWays Math</h1><p>Saved Nebius evidence and interactive simulation. No live AI calls.</p><form action="/login" method="post"><label for="access">Jury access code</label><input id="access" name="access" type="password" autocomplete="current-password" required maxlength="256"><button>Open jury preview</button></form><p>Synthetic inputs only. Sign out on shared computers. Sessions expire after 24 hours. Stored simulation data remains until the operator removes this isolated demo.</p></main></html>`;

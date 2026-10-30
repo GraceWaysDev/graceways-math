@@ -30,6 +30,25 @@ async function login(handle) {
 }
 const attempt = {taskId: 'quadratic', steps: ['(x - 2)(x + 2) = 0'], solution: '{-2;2}', scenario: 'positive'};
 
+test('native form login receives same-origin referrer policy; null, missing and foreign Origin remain rejected', async () => {
+  const db = new DatabaseSync(':memory:');
+  try {
+    const handle = createCloudflareHandler(storage(db), env);
+    const page = await handle(request('/login'));
+    assert.equal(page.headers.get('Referrer-Policy'), 'same-origin');
+    assert.match(await page.text(), /form action="\/login" method="post"/);
+    for (const originValue of ['null', 'https://foreign.example', undefined]) {
+      const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      if (originValue !== undefined) headers.Origin = originValue;
+      const r = await handle(new Request(origin + '/login', {method:'POST', headers,
+        body: new URLSearchParams({access: credentials.JURY_ACCESS_CODE})}));
+      assert.equal(r.status, 403);
+      assert.equal(r.headers.get('Set-Cookie'), null);
+    }
+    assert.ok(await login(handle));
+  } finally { db.close(); }
+});
+
 test('Cloudflare SQLite sessions, tickets, immutable approval, restart, logout and historical evidence', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'gwmath-cf-')); let db;
   try {

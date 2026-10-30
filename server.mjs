@@ -24,7 +24,7 @@ export function createHostedApp({origin,dataDir,accessCode,sessionSecret,local=f
  const cookie=(token,maxAge)=>`${cookieName}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${local?'':'; Secure'}`;
  const server=createServer(async(req,res)=>{
   const send=(code,value,type='text/plain')=>{res.writeHead(code,{'Content-Type':type+'; charset=utf-8'});res.end(value);};
-  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
+  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'");
   if(!local)res.setHeader('Strict-Transport-Security','max-age=31536000');
   try{

@@ -52,8 +52,8 @@
     },
     {
       "path": "cloudflare/handler.mjs",
-      "bytes": 9849,
-      "sha256": "523470bfb89b9d1fee70e514ad74771d59d654bbc2b6178b5a634d6112c234bc"
+      "bytes": 9944,
+      "sha256": "eadae301bc5da42c104283256ede810ebb3fe86d6bc212d67283a0b674a9dd8c"
     },
     {
       "path": "cloudflare/sql-store.mjs",
@@ -113,7 +113,7 @@
     {
       "path": "server.mjs",
       "bytes": 8033,
-      "sha256": "9578c9cf8b200b6ea65e9cde3318700dcb154f8509d14e2a5ecc4db72052c748"
+      "sha256": "6a023d2593faa70ab9b1ac6ec821a79d7ff20eb3477837b893bae79ca9f5cef0"
     },
     {
       "path": "src/admission.mjs",
@@ -162,8 +162,8 @@
     },
     {
       "path": "tests/cloudflare.test.mjs",
-      "bytes": 8734,
-      "sha256": "da0c3e1aca40afeaee9a56234209f218ba05ef788afd9f161dcdd83773cce74d"
+      "bytes": 9722,
+      "sha256": "96f2e44a086dde0de046db2d3a1d6f2e4f76ef040be09e7ed7908570f8d9f72a"
     },
     {
       "path": "tests/hosting.test.mjs",
